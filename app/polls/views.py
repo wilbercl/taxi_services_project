@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import TaxiService
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 
 # Create your views here.
 from django.http import HttpResponse
@@ -10,18 +11,23 @@ from django.http import HttpResponse
 def index(request):
     queryset = TaxiService.objects.all()
 
+    #ipp = request.GET.get('ipp', DEFAULT_IPP)
+    paginator = Paginator(queryset, 100)
+    #page = request.POST.get('page', 1)
+    current_page = paginator.page(1)
+
     data = []
 
-    for service in queryset:
+    for service in current_page:
         data.append(
             {
                 'id': service.id,
-                'vendorID': service.vendorID,
+                'VendorID': service.VendorID,
                 'tpep_pickup_datetime': service.tpep_pickup_datetime,
                 'tpep_dropoff_datetime': service.tpep_dropoff_datetime,
                 'passenger_count': service.passenger_count,
                 'trip_distance': service.trip_distance,
-                'ratecodeID': service.ratecodeID,
+                'RatecodeID': service.RatecodeID,
                 'store_and_fwd_flag': service.store_and_fwd_flag,
                 'PULocationID': service.PULocationID,
                 'DOLocationID': service.DOLocationID,
