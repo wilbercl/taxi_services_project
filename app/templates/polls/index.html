@@ -2,34 +2,48 @@
 
 {% block content %}
 
-
-
-
 <table class="table table-bordered">
 	<thead>
 		<tr>
-			<th scope="col">vendor</th>
+			<th>vendor</th>
 			<th>tpep_pickup_datetime</th>
 			<th>trip_distance</th>
 			<th>payment_type</th>
 		</tr>
 	</thead>
 	<tbody>
-	{% if data %}
-	{% for d in data %}
+	{% for item in items %}
 		<tr>
-			<td>{{d.VendorID}}</td>
-			<td>{{d.tpep_pickup_datetime}}</td>
-			<td>{{d.trip_distance}}</td>
-			<td>{{d.payment_type}}</td>
+			<td>NULL</td>
+			<td>{{ item.tpep_pickup_datetime }}</td>
+			<td>{{ item.trip_distance }}</td>
+			<td>{{ item.payment_type }}</td>
 		</tr>
 	{% endfor %}
-	{% else %}
-	<h1>No records</h1>
-
-	{% endif %}
 	</tbody>
 </table>
+
+{% if items.has_other_pages %}
+  <ul class="pagination">
+    {% if items.has_previous %}
+      <li><a href="?page={{ items.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in items.paginator.page_range %}
+      {% if items.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if items.has_next %}
+      <li><a href="?page={{ items.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
 
 
 

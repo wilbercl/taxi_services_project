@@ -4,7 +4,6 @@ from polls.constant import *
 
 class TaxiService(models.Model):
 
-    id = models.IntegerField(primary_key=True)
     vendor_id = models.PositiveSmallIntegerField(null=True, choices=VENDOR_ID_CHOICES)
     tpep_pickup_datetime = models.DateTimeField(db_index=True)
     tpep_dropoff_datetime = models.DateTimeField()
