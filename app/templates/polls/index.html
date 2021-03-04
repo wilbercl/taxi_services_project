@@ -15,7 +15,7 @@
 	{% for item in items %}
 		<tr>
 			<td>
-				<select name="select">
+				<select name="select" form="form">>
 					<option selected="true" disabled="disabled">NULL</option>
 					<option value="value1">Creative Mobile Technologies, LLC</option>
 					<option value="value2">VeriFone Inc.</option>
@@ -29,32 +29,92 @@
 	</tbody>
 </table>
 
-<form method="get">
+<form id="form" method="post" action="/polls/update_vendor_id">
 <!--    {{ filter.form.as_p }}-->
     <button type="submit">Aplicar Cambios</button>
 </form>
 
+
+
 {% if items.has_other_pages %}
-  <ul class="pagination">
-    {% if items.has_previous %}
-      <li><a href="?page={{ items.previous_page_number }}">&laquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in items.paginator.page_range %}
-      {% if items.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-      {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
+  <div class="pagination">
+      {% if items.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
       {% endif %}
-    {% endfor %}
-    {% if items.has_next %}
-      <li><a href="?page={{ items.next_page_number }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
-    {% endif %}
-  </ul>
+
+      {% for num in items.paginator.page_range %}
+        {% if items.number == num %}
+          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > items.number|add:'-3' and num < items.number|add:'3' %}
+          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if items.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ items.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ items.paginator.num_pages }}">Last</a>
+      {% endif %}
+ </div>
 {% endif %}
+
+
+
+
+
+
+
+<!--{% if items.has_previous %}-->
+<!--<a class="btn btn-outline-info mb-4" href="?page={{ items.previous_page_number }}">« Page précédente-->
+<!--{% if items.number > 3 %}-->
+<!--<a class="btn btn-outline-info mb-4" href="?page=1">1-->
+<!--{% if items.number > 4 %}-->
+<!--<button class="btn btn-outline-info mb-4" disabled="">...</button>-->
+<!--{% endif %}-->
+<!--{% endif %}-->
+<!--{% endif %}-->
+
+<!--{% for num in items.paginator.page_range %}-->
+<!--{% if items.number == num %}-->
+<!--<a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}-->
+<!--{% elif num > items.number|add:'-3' and num < items.number|add:'3' %}-->
+<!--<a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}-->
+<!--{% endif %}-->
+<!--{% endfor %}-->
+
+<!--{% if items.has_next %}-->
+<!--{% if items.number < items.paginator.num_pages|add:'-3' %}-->
+<!--<button class="btn btn-outline-info mb-4" disabled="">...</button>-->
+<!--<a class="btn btn-outline-info mb-4" href="?page={{ items.paginator.num_pages }}">{{ items.paginator.num_pages }}-->
+<!--{% elif items.number < items.paginator.num_pages|add:'-2' %}-->
+<!--<a class="btn btn-outline-info mb-4" href="?page={{ items.paginator.num_pages }}">{{ items.paginator.num_pages }}-->
+<!--{% endif %}-->
+<!--<a class="btn btn-outline-info mb-4" href="?page={{ items.next_page_number }}">Page suivante »-->
+<!--{% endif %}-->
+
+
+
+<!--{% if items.has_other_pages %}-->
+<!--  <ul class="pagination">-->
+<!--    {% if items.has_previous %}-->
+<!--      <li><a href="?page={{ items.previous_page_number }}">&laquo;</a></li>-->
+<!--    {% else %}-->
+<!--      <li class="disabled"><span>&laquo;</span></li>-->
+<!--    {% endif %}-->
+<!--    {% for i in items.paginator.page_range %}-->
+<!--      {% if items.number == i %}-->
+<!--        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>-->
+<!--      {% else %}-->
+<!--        <li><a href="?page={{ i }}">{{ i }}</a></li>-->
+<!--      {% endif %}-->
+<!--    {% endfor %}-->
+<!--    {% if items.has_next %}-->
+<!--      <li><a href="?page={{ items.next_page_number }}">&raquo;</a></li>-->
+<!--    {% else %}-->
+<!--      <li class="disabled"><span>&raquo;</span></li>-->
+<!--    {% endif %}-->
+<!--  </ul>-->
+<!--{% endif %}-->
 
 
 
