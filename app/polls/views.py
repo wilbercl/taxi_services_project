@@ -12,7 +12,7 @@ from app.settings import DEFAULT_IPP
 def index(request):
     # template = loader.get_template('polls/index.html')
 
-    queryset = TaxiService.objects.filter(vendor_id=None).values('vendor_id', 'tpep_pickup_datetime', 'trip_distance', 'payment_type')
+    queryset = TaxiService.objects.filter(vendor_id=None)#.values('id', 'vendor_id', 'tpep_pickup_datetime', 'trip_distance', 'payment_type')
 
 
     ipp = request.GET.get('ipp', DEFAULT_IPP)

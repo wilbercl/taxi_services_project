@@ -14,7 +14,13 @@
 	<tbody>
 	{% for item in items %}
 		<tr>
-			<td>NULL</td>
+			<td>
+				<select name="select">
+					<option selected="true" disabled="disabled">NULL</option>
+					<option value="value1">Creative Mobile Technologies, LLC</option>
+					<option value="value2">VeriFone Inc.</option>
+				</select>
+			</td>
 			<td>{{ item.tpep_pickup_datetime }}</td>
 			<td>{{ item.trip_distance }}</td>
 			<td>{{ item.payment_type }}</td>
@@ -22,6 +28,11 @@
 	{% endfor %}
 	</tbody>
 </table>
+
+<form method="get">
+<!--    {{ filter.form.as_p }}-->
+    <button type="submit">Aplicar Cambios</button>
+</form>
 
 {% if items.has_other_pages %}
   <ul class="pagination">
