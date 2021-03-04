@@ -1,24 +1,25 @@
 from django.db import models
-from .constant import *
+from polls.constant import *
 
-# Create your models here.
+
 class TaxiService(models.Model):
-    id = models.IntegerField(primary_key=True, null=False)
-    VendorID = models.PositiveSmallIntegerField(null=True, choices=VENDOR_ID_CHOICES)
-    tpep_pickup_datetime = models.DateTimeField(db_index=True, blank=False)
-    tpep_dropoff_datetime = models.DateTimeField(blank=False)
-    passenger_count = models.IntegerField(null=False)
-    trip_distance = models.FloatField(null=False)
-    RatecodeID = models.PositiveSmallIntegerField(choices=RATE_CODE_ID_CHOICES, null=False)
-    store_and_fwd_flag = models.CharField(max_length=50, null=False)
-    PULocationID = models.IntegerField(null=False)
-    DOLocationID = models.IntegerField(null=False)
-    payment_type = models.PositiveSmallIntegerField(choices=PAYMENT_TYPE_CHOICES, null=False)
-    fare_amount =models.FloatField(null=False)
-    extra = models.FloatField(null=False)
-    mta_tax = models.FloatField(null=False)
-    tip_amount = models.FloatField(null=False)
-    tolls_amount = models.FloatField(null=False)
-    improvement_surcharge =models.FloatField(null=False)
-    total_amount = models.FloatField(null=False)
-    congestion_surcharge = models.FloatField(null=False)
+
+    id = models.IntegerField(primary_key=True)
+    vendor_id = models.PositiveSmallIntegerField(null=True, choices=VENDOR_ID_CHOICES)
+    tpep_pickup_datetime = models.DateTimeField(db_index=True)
+    tpep_dropoff_datetime = models.DateTimeField()
+    passenger_count = models.IntegerField()
+    trip_distance = models.DecimalField(max_digits=10, decimal_places=2)
+    rate_code_id = models.PositiveSmallIntegerField(choices=RATE_CODE_ID_CHOICES)
+    store_and_fwd_flag = models.CharField(max_length=1)
+    pu_location_id = models.IntegerField()
+    do_location_id = models.IntegerField()
+    payment_type = models.PositiveSmallIntegerField(choices=PAYMENT_TYPE_CHOICES)
+    fare_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    extra = models.DecimalField(max_digits=10, decimal_places=2)
+    mta_tax = models.DecimalField(max_digits=10, decimal_places=2)
+    tip_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    tolls_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    improvement_surcharge = models.DecimalField(max_digits=10, decimal_places=2)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    congestion_surcharge = models.DecimalField(max_digits=10, decimal_places=2)

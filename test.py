@@ -7,7 +7,7 @@ def write_excel(dataframe, writer, sheet_name):
     dataframe.to_excel(writer, index=False, sheet_name=sheet_name)
 
 def load_dataframe():
-    BASE_DIR = os.getcwd() + "\datos\datos\\"
+    BASE_DIR = os.getcwd() + "\datos\\"
     os.chdir(BASE_DIR)
     csv_files = glob.glob('*.{}'.format('csv'))
     list_data = []
@@ -39,10 +39,16 @@ def start():
     dataframe.tpep_pickup_datetime = pd.to_datetime(dataframe.tpep_pickup_datetime)
 
     os.chdir(PATH)
-    #print(dataframe.dtypes)
 
     dataframe['mes'] = dataframe['tpep_pickup_datetime'].dt.strftime('%Y-%m')
     dataframe['tipo_dia'] = np.where(dataframe['tpep_pickup_datetime'].dt.dayofweek >= 5, '2', '1')
+
+    #Elimino los registros que la fecha sea diferente a los meses de enero, febreo, marzo de 2020
+    df1 = dataframe.loc[dataframe['mes'] == '2020-01']
+    df2 = dataframe.loc[dataframe['mes'] == '2020-02']
+    df3 = dataframe.loc[dataframe['mes'] == '2020-03']
+    list = [df1, df2, df3]
+    dataframe = pd.concat(list, ignore_index=True)
 
     groupby_jfk = execute(dataframe, lambda df: df['RatecodeID'] == 2)
     groupby_regular = execute(dataframe, lambda df: df['RatecodeID'] == 1)

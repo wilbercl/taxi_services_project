@@ -12,7 +12,7 @@ from app.settings import DEFAULT_IPP
 def index(request):
     # template = loader.get_template('polls/index.html')
 
-    queryset = TaxiService.objects.filter(VendorID=1)
+    queryset = TaxiService.objects.filter(vendor_id=1)
 
     ipp = request.GET.get('ipp', DEFAULT_IPP)
     paginator = Paginator(queryset, ipp)
@@ -32,7 +32,7 @@ def index(request):
     for service in items:
         data.append(
             {
-                'VendorID': service.VendorID,
+                'vendor_id': service.vendor_id,
                 'tpep_pickup_datetime': service.tpep_pickup_datetime,
                 'trip_distance': service.trip_distance,
                 'payment_type': service.payment_type
@@ -76,17 +76,21 @@ def longest_trips(request):
     vendor_id = int(request.GET.get('vendor_id', 5))
     limit = int(request.GET.get('limit', 2))
 
-    queryset = TaxiService.objects.filter(VendorID=vendor_id).order_by('-trip_distance')[:limit]
+    queryset = (
+        TaxiService.objects.filter(vendor_id=vendor_id)
+            .values('vendor_id', 'tpep_pickup_datetime', 'tpep_dropoff_datetime', 'trip_distance')
+            .order_by('-trip_distance')[:limit]
+    )
 
     data = []
 
     for v_id in queryset:
         data.append(
             {
-                'VendorID': v_id.VendorID,
-                'tpep_pickup_datetime': v_id.tpep_pickup_datetime,
-                'tpep_dropoff_datetime': v_id.tpep_dropoff_datetime,
-                'trip_distance': v_id.trip_distance
+                'vendor_id': v_id['vendor_id'],
+                'tpep_pickup_datetime': v_id['tpep_pickup_datetime'],
+                'tpep_dropoff_datetime': v_id['tpep_dropoff_datetime'],
+                'trip_distance': v_id['trip_distance']
             }
         )
 
