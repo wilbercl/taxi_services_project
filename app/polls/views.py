@@ -11,7 +11,7 @@ from app.settings import DEFAULT_IPP
 @require_http_methods(['GET'])
 def index(request):
 
-    queryset = TaxiService.objects.filter(vendor_id=1)#.values('id', 'vendor_id', 'tpep_pickup_datetime', 'trip_distance', 'payment_type')
+    queryset = TaxiService.objects.filter(vendor_id=None)#.values('id', 'vendor_id', 'tpep_pickup_datetime', 'trip_distance', 'payment_type')
 
 
     ipp = request.GET.get('ipp', DEFAULT_IPP)
