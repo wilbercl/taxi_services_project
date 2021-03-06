@@ -53,6 +53,6 @@ def insert_db(path):
         TaxiService.objects.bulk_create(list_data)
 
 
-insert_db('C:\\Users\\ASUS\\Downloads\\Frogtek\\django_test\\datos\\datos\\')
+#insert_db('C:\\Users\\ASUS\\Downloads\\Frogtek\\django_test\\datos\\datos\\')
 
 #insert_db('C:\\Users\\ASUS\\Downloads\\Frogtek\\django_test\\datos\\datos\\')

@@ -3,6 +3,7 @@ import glob
 import os
 import numpy as np
 
+
 def write_excel(dataframe, writer, sheet_name):
     dataframe.to_excel(writer, index=False, sheet_name=sheet_name)
 
@@ -49,6 +50,23 @@ def start():
     df3 = dataframe.loc[dataframe['mes'] == '2020-03']
     list = [df1, df2, df3]
     dataframe = pd.concat(list, ignore_index=True)
+
+    #Elimino los registros donde la columna trip_distance <= 0
+    dataframe = dataframe.drop(dataframe[dataframe['trip_distance'] <= 0].index)
+
+    #Elimino los registros donde la columna fare_amount <= 0
+    dataframe = dataframe.drop(dataframe[dataframe['fare_amount'] <= 0].index)
+
+    ##Elimino los registros donde la columna tolls_amount < 0
+    dataframe = dataframe.drop(dataframe[dataframe['tolls_amount'] < 0].index)
+
+    # Elimino los registros donde la columna extra < 0
+    dataframe = dataframe.drop(dataframe[dataframe['extra'] < 0].index)
+
+    # Elimino los registros donde la columna mta_tax < 0
+    dataframe = dataframe.drop(dataframe[dataframe['mta_tax'] < 0].index)
+
+    print(dataframe.shape[0])
 
     groupby_jfk = execute(dataframe, lambda df: df['RatecodeID'] == 2)
     groupby_regular = execute(dataframe, lambda df: df['RatecodeID'] == 1)

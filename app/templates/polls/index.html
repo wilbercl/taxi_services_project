@@ -2,63 +2,95 @@
 
 {% block content %}
 
-<table class="table table-bordered">
-	<thead>
-		<tr>
-			<th>vendor</th>
-			<th>tpep_pickup_datetime</th>
-			<th>trip_distance</th>
-			<th>payment_type</th>
-		</tr>
-	</thead>
-	<tbody>
-	{% for item in items %}
-		<tr>
-			<td>
-				<select name="select" form="form">>
-					<option selected="true" disabled="disabled">NULL</option>
-					<option value="value1">Creative Mobile Technologies, LLC</option>
-					<option value="value2">VeriFone Inc.</option>
-				</select>
-			</td>
-			<td>{{ item.tpep_pickup_datetime }}</td>
-			<td>{{ item.trip_distance }}</td>
-			<td>{{ item.payment_type }}</td>
-		</tr>
-	{% endfor %}
-	</tbody>
-</table>
+
+
+
+
+
+
+
+
 
 <form id="form" method="post" action="/polls/update_vendor_id">
-<!--    {{ filter.form.as_p }}-->
-    <button type="submit">Aplicar Cambios</button>
+	<div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>vendor</th>
+					<th>tpep_pickup_datetime</th>
+					<th>trip_distance</th>
+					<th>payment_type</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for item in items %}
+				<tr>
+					<td>
+						<select id=vendor name="vendor" form="form">>
+							<option selected="true" disabled="disabled">NULL</option>
+							<option value="value1">Creative Mobile Technologies, LLC</option>
+							<option value="value2">VeriFone Inc.</option>
+						</select>
+					</td>
+					<td>{{ item.tpep_pickup_datetime }}</td>
+					<td>{{ item.trip_distance }}</td>
+					<td>{{ item.payment_type }}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+
+	{% if items.has_other_pages %}
+		<div class="pagination">
+		  {% if items.has_previous %}
+			<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+			<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+		  {% endif %}
+
+		  {% for num in items.paginator.page_range %}
+			{% if items.number == num %}
+			  <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+			{% elif num > items.number|add:'-3' and num < items.number|add:'3' %}
+			  <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+			{% endif %}
+		  {% endfor %}
+
+		  {% if items.has_next %}
+			<a class="btn btn-outline-info mb-4" href="?page={{ items.next_page_number }}">Next</a>
+			<a class="btn btn-outline-info mb-4" href="?page={{ items.paginator.num_pages }}">Last</a>
+		  {% endif %}
+		</div>
+	{% endif %}
+
+
+
+    <button class="primary" type="submit">Aplicar Cambios</button>
+<!--	<button type="button" style="margin-top: 2%; margin-left: 1%;" class="btn btn-primary" onclick=make_changes()>-->
+<!--                    <span class="fa fa-search"></span> Aplicar Cambios-->
+<!--	</button>-->
+
+<!--	<script>-->
+<!--		function make_changes(){-->
+<!--			for-->
+<!--			var vendor= document.getElementById("vendor").value;-->
+<!--			var vendorID = items.id-->
+
+<!--			var criteria = "?";-->
+<!--			var endpoint = 'http://{{host | safe}}/polls/update_vendor_id';-->
+
+<!--			if (budgetStr.length > 0)-->
+<!--				endpoint = endpoint.concat('?vendorID','=',vendorID, '?vendor','=',vendor);-->
+
+<!--			window.location.href = endpoint;-->
+<!--			return false;-->
+<!--    }-->
+
+<!--		}-->
+<!--	</script>-->
+
 </form>
-
-
-
-{% if items.has_other_pages %}
-  <div class="pagination">
-      {% if items.has_previous %}
-        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-      {% endif %}
-
-      {% for num in items.paginator.page_range %}
-        {% if items.number == num %}
-          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-        {% elif num > items.number|add:'-3' and num < items.number|add:'3' %}
-          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
-        {% endif %}
-      {% endfor %}
-
-      {% if items.has_next %}
-        <a class="btn btn-outline-info mb-4" href="?page={{ items.next_page_number }}">Next</a>
-        <a class="btn btn-outline-info mb-4" href="?page={{ items.paginator.num_pages }}">Last</a>
-      {% endif %}
- </div>
-{% endif %}
-
-
 
 
 

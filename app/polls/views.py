@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import TaxiService
+from django.views.decorators.csrf import csrf_exempt
 
 from django.template import RequestContext, loader
 from django.http import JsonResponse, HttpResponse
@@ -8,11 +9,12 @@ from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 
 from app.settings import DEFAULT_IPP
 
+from polls.constant import PAYMENT_TYPE_CHOICES
+
+
 @require_http_methods(['GET'])
 def index(request):
-
     queryset = TaxiService.objects.filter(vendor_id=None)#.values('id', 'vendor_id', 'tpep_pickup_datetime', 'trip_distance', 'payment_type')
-
 
     ipp = request.GET.get('ipp', DEFAULT_IPP)
     page = request.GET.get('page', 1)
@@ -27,7 +29,6 @@ def index(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         items = paginator.page(paginator.num_pages)
-
 
     # return JsonResponse(obj, safe=False)
     return render(request, 'polls/index.html', {
@@ -64,6 +65,30 @@ def longest_trips(request):
 
     return JsonResponse(obj, safe=False)
 
-@require_http_methods(["POST"])
+
+@csrf_exempt
+@require_http_methods(['POST'])
 def update_vendor_id(request):
-    print('LLego')
+    # if 'values' in request.POST:
+    values = request.POST.items()  # [(id, vendor), ...]
+    data_list = []
+    print(request.POST.values())
+    print(values)
+    print('entro')
+
+
+    for value in values:
+        print(value)
+        # servicio_taxi = TaxiService.objects.get(id=value[0])
+        #
+        # if (value[1] == 'Creative Mobile Technologies, LLC'):
+        #     servicio_taxi.vendor_id = 1
+        # else:
+        #     servicio_taxi.vendor_id = 2
+        #
+        # servicio_taxi.save()
+        # #data_list.append(servicio_taxi)
+
+    return JsonResponse({}, status=200)
+
+
