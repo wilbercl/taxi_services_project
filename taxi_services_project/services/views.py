@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import TaxiService
 from django.views.decorators.csrf import csrf_exempt
 
@@ -67,30 +67,17 @@ def longest_trips(request):
 @csrf_exempt
 @require_http_methods(['POST'])
 def update_vendor_id(request):
+    values = request.POST.getlist('vendor')  # ['vendor_id-id', ...]
+    data_list = []
 
-    print(request.POST)
-    # for key in request.__dict__['META'].keys():
-    #     print(key)
-    # if 'values' in request.POST:
-    values = request.POST.get('vendor')  # [(id, vendor), ...]
-    # data_list = []
-    print(values)
-    # print(values)
-    # print('entro')
+    for value in values:
+        value = value.split('-')
+        servicio_taxi = TaxiService.objects.get(id=value[1])
+        servicio_taxi.vendor_id = value[0]
+        data_list.append(servicio_taxi)
 
+    TaxiService.objects.bulk_update(data_list, ['vendor_id'])
 
-    # for value in values:
-    #     print(value)
-    #     # servicio_taxi = TaxiService.objects.get(id=value[0])
-    #     #
-    #     # if (value[1] == 'Creative Mobile Technologies, LLC'):
-    #     #     servicio_taxi.vendor_id = 1
-    #     # else:
-    #     #     servicio_taxi.vendor_id = 2
-    #     #
-    #     # servicio_taxi.save()
-    #     # #data_list.append(servicio_taxi)
-
-    return JsonResponse({}, status=200)
+    return redirect('index')
 
 

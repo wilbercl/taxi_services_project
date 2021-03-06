@@ -2,6 +2,7 @@ import glob
 import os
 import django
 import decimal
+import datetime
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "taxi_services_project.settings")
 django.setup()
 
@@ -20,12 +21,9 @@ def insert_db(path):
             next(reader, None)
             for row in reader:
                 date = row[1][:7]
-                minute_tpep_pickup = int(row[1][14:16])
-                minute_tpep_dropoff = int(row[2][14:16])
-                #print(decimal.Decimal(row[4]))
+                # print((datetime.datetime.strptime(row[2], "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(row[1], "%Y-%m-%d %H:%M:%S")))
 
                 if (date == '2020-01' or date == '2020-02' or date == '2020-03') and \
-                    (minute_tpep_dropoff - minute_tpep_pickup) >= 0 and \
                     decimal.Decimal(row[4]) > 0 and \
                     decimal.Decimal(row[10]) > 0 and \
                     decimal.Decimal(row[11]) >= 0 and \
@@ -62,6 +60,6 @@ def insert_db(path):
         TaxiService.objects.bulk_create(list_data)
 
 
-#insert_db('C:\\Users\\ASUS\\Downloads\\Frogtek\\django_test\\datos\\datos\\')
+# insert_db('C:\\Users\\ASUS\\Downloads\\Frogtek\\django_test\\datos\\datos\\')
 
 #insert_db('C:\\Users\\ASUS\\Downloads\\Frogtek\\django_test\\datos\\')

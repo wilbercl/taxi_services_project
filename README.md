@@ -1,24 +1,36 @@
-#Taxi Services Project 
+#Proyecto Servicios de Taxi 
 ***
-The objective of the test is to see how you develop in a practical exercise that covers data extraction, the generation of a simple web and query API and finally the generation of a deliverable in Python.
+El objetivo de esta prueba es resolver un ejercicio práctico que abarque la extracción de datos, la generación de unas simples web y API de consulta y por último la generación de un entregable en Python.
 
-##Requirements 
+##Desarrollado  
 ***
-* Python 3.x.x (3.6.10) 
+Esta aplicación se implementó utilizando las siguientes tecnologías:
 
-* Running the application (Local)
+* [Python](https://www.python.org/) - Lenguaje de programación.
+* [MySQL](https://www.mysql.com/) - Base de datos.
+* [Pandas](https://pandas.pydata.org/) - Manipulación de datos.
+* [Django](https://www.djangoproject.com/) - Framework Web usado
 
-* DataBase: MySQL
+##Requerimientos
+***
+* Python 3.x.x (3.7.9)
+* Django 2.2
+* Pandas 1.2.2
+* MySQL 8.0.2
 
-*Pandas 2
-*Django 2.2
-
-##Installation
+##Instalación
 *** 
+- Instalar servidor de mysql, python3, django y pandas (recomiendo crear un entorno virtual que contenga las librerías).
+- *pip install -r requirements.txt* (opcional)
+- Crear la base de datos con el nombre _taxi_services_
+- Ejecutar desde la raiz del proyecto *python manage.py makemigrations* 
+- Ejecutar *python manage.py migrate*
+- Luego buscar el fichero _tools.py_ y ejecutarlo actualizando la ruta donde se encuentren los ficheros .csv (carga los datos a la base de datos)
+- Finalmente ejecutamos *python manage.py runserver* y accedemos a la url desde el navegador (http://127.0.0.1:8000/).
 
-##Questions
+##Preguntas
 ***
-Part 1. SQL
+###Part 1. SQL
 
 Procedimiento para cargar los ficheros es ejecutar la siguiente secuencia de código sql por cada fichero con los datos a trabajar. 
 ``` 
@@ -27,10 +39,10 @@ Procedimiento para cargar los ficheros es ejecutar la siguiente secuencia de có
 	FIELDS TERMINATED BY ',' 
 	ENCLOSED BY '"' 
 	LINES TERMINATED BY '\n' 
-	IGNORE 1 ROWS • [(column_name, …)];
+	IGNORE 1 ROWS 
+	[(column_name, …)];
 ```
-###Table definition
-***
+####Definición de la tabla
 ``` 
 	CREATE TABLE IF NOT EXISTS test ( 
 		id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
@@ -59,8 +71,7 @@ Cantidad de registros de la tabla (excluidos los registros con fechas diferentes
 SELECT COUNT(*) FROM [table_name]
 ```
 
-###Trayecto en distancia
-***
+#### * Trayecto en distancia
 ```
  SELECT * 
  FROM ( 
@@ -79,8 +90,7 @@ SELECT COUNT(*) FROM [table_name]
 | 2020-02| 57051.09| 0.01| 2.89|
 | 2020-03 |269803.73| 0.01 |3.15|
 
-###Trayecto en tiempo (diferencia en minute entre la fecha de recogida y la fecha de llegada) 
-***
+#### * Trayecto en tiempo (diferencia en minute entre la fecha de recogida y la fecha de llegada)
 ```
 SELECT * 
 FROM ( 
@@ -99,8 +109,7 @@ ORDER BY mes;
 |2020-02| 2632| 0| 15.72|
 |2020-03| 1814| 0 |15.18|
 
-###Variacion porcentual respecto al mes anterior
-***
+#### * Variacion porcentual respecto al mes anterior
 ```
 SELECT mes, 
 	   servicios, 
@@ -119,6 +128,45 @@ ORDER BY mes;
 | 2020-01| 6316295| NULL|
 | 2020-02| 6219699| -2%|
 | 2020-03| 2964882| -52%|
+
+###Part 2. Django, Web, API
+Ejemplo de la url del sitio web
+http://127.0.0.1:8000/services/
+####Parte 2.2. API Endpoint para consultar los servicios
+http://127.0.0.1:8000/services/longest_trips?vendor_id=1&limit=3
+
+Ejemplo del .json resultante
+```
+{
+    "servicios": [
+        {
+            "vendor_id": 1,
+            "tpep_pickup_datetime": "2020-02-01T00:26:31",
+            "tpep_dropoff_datetime": "2020-02-01T00:52:26",
+            "trip_distance": "7.50"
+        },
+        {
+            "vendor_id": 1,
+            "tpep_pickup_datetime": "2020-03-01T00:14:43",
+            "tpep_dropoff_datetime": "2020-03-01T00:37:00",
+            "trip_distance": "7.20"
+        },
+        {
+            "vendor_id": 1,
+            "tpep_pickup_datetime": "2020-03-01T00:15:43",
+            "tpep_dropoff_datetime": "2020-03-01T00:46:57",
+            "trip_distance": "6.20"
+        }
+    ]
+}
+```
+
+###Part 3. Generar un informe usando python
+Ejecutar el script _excel_file_generator.py_
+
+##Versionado
+***
+Git
 
 ##Author
 ***
