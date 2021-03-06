@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+
+
+
+
+
+<form method="post" action="/services/update_vendor_id">
+	<div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>vendor</th>
+					<th>tpep_pickup_datetime</th>
+					<th>trip_distance</th>
+					<th>payment_type</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for item in items %}
+				<tr>
+					<td>
+						<select id="vendor" name="vendor">
+							<option selected="true" disabled="disabled">NULL</option>
+							<option value=1>Creative Mobile Technologies, LLC</option>
+							<option value=2>VeriFone Inc.</option>
+<!--							{% if vendor.value != NULL %}-->
+<!--								<input type="hidden" name="id" value="{{item.id}}">-->
+<!--							{% endif %}-->
+						</select>
+					</td>
+					<td>{{ item.tpep_pickup_datetime }}</td>
+					<td>{{ item.id }}</td>
+					<td>{{ item.get_payment_type_display }}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+
+	{% if items.has_other_pages %}
+		<div class="pagination">
+		  {% if items.has_previous %}
+			<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+			<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+		  {% endif %}
+
+		  {% for num in items.paginator.page_range %}
+			{% if items.number == num %}
+			  <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+			{% elif num > items.number|add:'-3' and num < items.number|add:'3' %}
+			  <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+			{% endif %}
+		  {% endfor %}
+
+		  {% if items.has_next %}
+			<a class="btn btn-outline-info mb-4" href="?page={{ items.next_page_number }}">Next</a>
+			<a class="btn btn-outline-info mb-4" href="?page={{ items.paginator.num_pages }}">Last</a>
+		  {% endif %}
+		</div>
+	{% endif %}
+
+
+
+    <button class="primary" type="submit">Aplicar Cambios</button>
+<!--	<button type="button" style="margin-top: 2%; margin-left: 1%;" class="btn btn-primary" onclick=make_changes()>-->
+<!--                    <span class="fa fa-search"></span> Aplicar Cambios-->
+<!--	</button>-->
+
+<!--	<script>-->
+<!--		function make_changes(){-->
+<!--			for-->
+<!--			var vendor= document.getElementById("vendor").value;-->
+<!--			var vendorID = items.id-->
+
+<!--			var criteria = "?";-->
+<!--			var endpoint = 'http://{{host | safe}}/services/update_vendor_id';-->
+
+<!--			if (budgetStr.length > 0)-->
+<!--				endpoint = endpoint.concat('?vendorID','=',vendorID, '?vendor','=',vendor);-->
+
+<!--			window.location.href = endpoint;-->
+<!--			return false;-->
+<!--    }-->
+
+<!--		}-->
+<!--	</script>-->
+
+</form>
+
+
+
+
+
+<!--{% if items.has_previous %}-->
+<!--<a class="btn btn-outline-info mb-4" href="?page={{ items.previous_page_number }}">« Page précédente-->
+<!--{% if items.number > 3 %}-->
+<!--<a class="btn btn-outline-info mb-4" href="?page=1">1-->
+<!--{% if items.number > 4 %}-->
+<!--<button class="btn btn-outline-info mb-4" disabled="">...</button>-->
+<!--{% endif %}-->
+<!--{% endif %}-->
+<!--{% endif %}-->
+
+<!--{% for num in items.paginator.page_range %}-->
+<!--{% if items.number == num %}-->
+<!--<a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}-->
+<!--{% elif num > items.number|add:'-3' and num < items.number|add:'3' %}-->
+<!--<a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}-->
+<!--{% endif %}-->
+<!--{% endfor %}-->
+
+<!--{% if items.has_next %}-->
+<!--{% if items.number < items.paginator.num_pages|add:'-3' %}-->
+<!--<button class="btn btn-outline-info mb-4" disabled="">...</button>-->
+<!--<a class="btn btn-outline-info mb-4" href="?page={{ items.paginator.num_pages }}">{{ items.paginator.num_pages }}-->
+<!--{% elif items.number < items.paginator.num_pages|add:'-2' %}-->
+<!--<a class="btn btn-outline-info mb-4" href="?page={{ items.paginator.num_pages }}">{{ items.paginator.num_pages }}-->
+<!--{% endif %}-->
+<!--<a class="btn btn-outline-info mb-4" href="?page={{ items.next_page_number }}">Page suivante »-->
+<!--{% endif %}-->
+
+
+
+<!--{% if items.has_other_pages %}-->
+<!--  <ul class="pagination">-->
+<!--    {% if items.has_previous %}-->
+<!--      <li><a href="?page={{ items.previous_page_number }}">&laquo;</a></li>-->
+<!--    {% else %}-->
+<!--      <li class="disabled"><span>&laquo;</span></li>-->
+<!--    {% endif %}-->
+<!--    {% for i in items.paginator.page_range %}-->
+<!--      {% if items.number == i %}-->
+<!--        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>-->
+<!--      {% else %}-->
+<!--        <li><a href="?page={{ i }}">{{ i }}</a></li>-->
+<!--      {% endif %}-->
+<!--    {% endfor %}-->
+<!--    {% if items.has_next %}-->
+<!--      <li><a href="?page={{ items.next_page_number }}">&raquo;</a></li>-->
+<!--    {% else %}-->
+<!--      <li class="disabled"><span>&raquo;</span></li>-->
+<!--    {% endif %}-->
+<!--  </ul>-->
+<!--{% endif %}-->
+
+
+
+
+
+
+
+
+<!--<ul>-->
+<!--    {% for item in items %}-->
+<!--        <li>{{ item.name }}</li>-->
+<!--    {% endfor %}-->
+<!--</ul>-->
+<!--{% if paginator.has_next or items.has_previous %}-->
+<!--    <ul class="pagination">-->
+<!--        {% if paginator.has_previous %}-->
+<!--            <li><a href="?page={{ paginator.previous_page_number }}" class="btn btnpages"><i-->
+<!--                    class="glyphicon glyphicon-chevron-left"></i></a></li>-->
+<!--        {% endif %}-->
+<!--        {% for page in paginator.page_range %}-->
+<!--            <li class="{% if paginator.number == page %}active{% endif %}">-->
+<!--                <a class="btn btnpages" href="?page={{ page }}">{{ page }}</a></li>-->
+<!--        {% endfor %}-->
+
+<!--        {% if paginator.has_next %}-->
+<!--            <li>-->
+<!--                <a href="?page={{ paginator.next_page_number }}" class="btn btnpages">-->
+<!--                    <i class="glyphicon glyphicon-chevron-right"></i>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--        {% endif %}-->
+<!--    </ul>-->
+<!--{% endif %}-->
+
+
+
+
+
+
+
+<!--<ul class="pagination">-->
+<!--  {% if current_page.has_previous %}-->
+<!--    <li><a href="?page={{ current_page.previous_page_number }}">&laquo;</a></li>-->
+<!--  {% else %}-->
+<!--    <li class="disabled"><span>&laquo;</span></li>-->
+<!--  {% endif %}-->
+<!--  {% for i in current_page.paginator.page_range %}-->
+<!--    {% if current_page.number == i %}-->
+<!--      <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>-->
+<!--    {% else %}-->
+<!--      <li><a href="?page={{ i }}">{{ i }}</a></li>-->
+<!--    {% endif %}-->
+<!--  {% endfor %}-->
+<!--  {% if page_obj.has_next %}-->
+<!--    <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>-->
+<!--  {% else %}-->
+<!--    <li class="disabled"><span>&raquo;</span></li>-->
+<!--  {% endif %}-->
+<!--</ul>-->
+
+
+
+
+
+
+
+
+
+<!--<div class="pagination">-->
+<!--            <span class="step-links">-->
+<!--                {% if paginator.has_previous %}-->
+<!--                    <a href="?page=1">&laquo; first</a>-->
+<!--                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>-->
+<!--                {% endif %}-->
+
+<!--                <span class="current">-->
+<!--                    Page {{ paginator.page }} of {{ paginator.num_pages }}.-->
+<!--                </span>-->
+
+<!--                {% if paginator.has_next %}-->
+<!--                    <a href="?page={{ page_obj.next_page_number }}">next</a>-->
+<!--                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>-->
+<!--                {% endif %}-->
+<!--            </span>-->
+<!--        </div>-->
+
+{% endblock %}
