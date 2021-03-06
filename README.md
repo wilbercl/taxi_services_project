@@ -1,8 +1,8 @@
-#Proyecto Servicios de Taxi 
+# Proyecto Servicios de Taxi 
 ***
 El objetivo de esta prueba es resolver un ejercicio práctico que abarque la extracción de datos, la generación de unas simples web y API de consulta y por último la generación de un entregable en Python.
 
-##Desarrollado  
+## Desarrollado  
 ***
 Esta aplicación se implementó utilizando las siguientes tecnologías:
 
@@ -11,14 +11,14 @@ Esta aplicación se implementó utilizando las siguientes tecnologías:
 * [Pandas](https://pandas.pydata.org/) - Manipulación de datos.
 * [Django](https://www.djangoproject.com/) - Framework Web usado
 
-##Requerimientos
+## Requerimientos
 ***
 * Python 3.x.x (3.7.9)
 * Django 2.2
 * Pandas 1.2.2
 * MySQL 8.0.2
 
-##Instalación
+## Instalación
 *** 
 - Instalar servidor de mysql, python3, django y pandas (recomiendo crear un entorno virtual que contenga las librerías).
 - *pip install -r requirements.txt* (opcional)
@@ -28,9 +28,9 @@ Esta aplicación se implementó utilizando las siguientes tecnologías:
 - Luego buscar el fichero _tools.py_ y ejecutarlo actualizando la ruta donde se encuentren los ficheros .csv (carga los datos a la base de datos)
 - Finalmente ejecutamos *python manage.py runserver* y accedemos a la url desde el navegador (http://127.0.0.1:8000/).
 
-##Preguntas
+## Preguntas
 ***
-###Part 1. SQL
+### Part 1. SQL
 
 Procedimiento para cargar los ficheros es ejecutar la siguiente secuencia de código sql por cada fichero con los datos a trabajar. 
 ``` 
@@ -42,7 +42,7 @@ Procedimiento para cargar los ficheros es ejecutar la siguiente secuencia de có
 	IGNORE 1 ROWS 
 	[(column_name, …)];
 ```
-####Definición de la tabla
+#### Definición de la tabla
 ``` 
 	CREATE TABLE IF NOT EXISTS test ( 
 		id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
@@ -129,10 +129,10 @@ ORDER BY mes;
 | 2020-02| 6219699| -2%|
 | 2020-03| 2964882| -52%|
 
-###Part 2. Django, Web, API
+### Part 2. Django, Web, API
 Ejemplo de la url del sitio web
 http://127.0.0.1:8000/services/
-####Parte 2.2. API Endpoint para consultar los servicios
+#### Parte 2.2. API Endpoint para consultar los servicios
 http://127.0.0.1:8000/services/longest_trips?vendor_id=1&limit=3
 
 Ejemplo del .json resultante
@@ -161,13 +161,13 @@ Ejemplo del .json resultante
 }
 ```
 
-###Part 3. Generar un informe usando python
+### Part 3. Generar un informe usando python
 Ejecutar el script _excel_file_generator.py_
 
-##Versionado
+## Versionado
 ***
 Git
 
-##Author
+## Autor
 ***
 Wilber Concepción Lugo
