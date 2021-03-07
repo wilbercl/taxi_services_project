@@ -142,6 +142,7 @@ ORDER BY mes;
 ### Part 2. Django, Web, API
 Ejemplo de la url del sitio web
 http://127.0.0.1:8000/services/
+
 #### Parte 2.2. API Endpoint para consultar los servicios
 http://127.0.0.1:8000/services/longest_trips?vendor_id=1&limit=3
 
@@ -151,28 +152,28 @@ Ejemplo del .json resultante
     "servicios": [
         {
             "vendor_id": 1,
-            "tpep_pickup_datetime": "2020-02-01T00:26:31",
-            "tpep_dropoff_datetime": "2020-02-01T00:52:26",
-            "trip_distance": "7.50"
+            "tpep_pickup_datetime": "2020-03-01T02:06:17",
+            "tpep_dropoff_datetime": "2020-03-01T03:37:24",
+            "trip_distance": "49.20"
         },
         {
             "vendor_id": 1,
-            "tpep_pickup_datetime": "2020-03-01T00:14:43",
-            "tpep_dropoff_datetime": "2020-03-01T00:37:00",
-            "trip_distance": "7.20"
+            "tpep_pickup_datetime": "2020-01-01T01:46:50",
+            "tpep_dropoff_datetime": "2020-01-01T03:25:19",
+            "trip_distance": "35.70"
         },
         {
             "vendor_id": 1,
-            "tpep_pickup_datetime": "2020-03-01T00:15:43",
-            "tpep_dropoff_datetime": "2020-03-01T00:46:57",
-            "trip_distance": "6.20"
+            "tpep_pickup_datetime": "2020-02-01T02:37:56",
+            "tpep_dropoff_datetime": "2020-02-01T03:22:46",
+            "trip_distance": "34.60"
         }
     ]
 }
 ```
 
 ### Part 3. Generar un informe usando python
-Ejecutar el script _excel_file_generator.py_
+Ejecutar el script _excel_file_generator.py_ y obtener el archivo _file.xlsx_
 
 ## Versionado
 ***

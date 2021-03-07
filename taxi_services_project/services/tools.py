@@ -2,7 +2,6 @@ import glob
 import os
 import django
 import decimal
-import datetime
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "taxi_services_project.settings")
 django.setup()
 
@@ -14,14 +13,19 @@ def insert_db(path):
     os.chdir(path)
     csv_files = glob.glob('*.{}'.format('csv'))
     list_data = []
+    # count = 0
 
     for filename in csv_files:
         with open(filename) as f:
             reader = csv.reader(f)
             next(reader, None)
             for row in reader:
+                # if count > 34000:
+                #     count = 0
+                #     break
+                #
+                # count += 1
                 date = row[1][:7]
-                # print((datetime.datetime.strptime(row[2], "%Y-%m-%d %H:%M:%S") - datetime.datetime.strptime(row[1], "%Y-%m-%d %H:%M:%S")))
 
                 if (date == '2020-01' or date == '2020-02' or date == '2020-03') and \
                     decimal.Decimal(row[4]) > 0 and \
