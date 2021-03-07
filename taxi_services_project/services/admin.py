@@ -1,3 +1,5 @@
 from django.contrib import admin
+from services.models import TaxiService
 
-# Register your models here.
+
+admin.site.register(TaxiService)

@@ -28,6 +28,9 @@ Esta aplicación se implementó utilizando las siguientes tecnologías:
 - Luego buscar el fichero _tools.py_ y ejecutarlo actualizando la ruta donde se encuentren los ficheros .csv (carga los datos a la base de datos)
 - Finalmente ejecutamos *python manage.py runserver* y accedemos a la url desde el navegador (http://127.0.0.1:8000/).
 
+## Aplicación Web
+Esta aplicación no está en modo de producción, por ejemplo. DEBUG = True (a propósito).
+
 ## Preguntas
 ***
 ### Part 1. SQL

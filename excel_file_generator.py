@@ -1,26 +1,22 @@
-import pandas as pd
 import glob
-import os
 import numpy as np
+import os
+import pandas as pd
 
 
 class ExcelGenerator():
-    def write_excel(self, dataframe, writer, sheet_name):
-        dataframe.to_excel(writer, index=False, sheet_name=sheet_name)
+    file_name = "file.xlsx"
+    base_dir = os.getcwd() + "\datos\\"
 
     def load_dataframe(self):
-        BASE_DIR = os.getcwd() + "\datos\\"
-        os.chdir(BASE_DIR)
-        csv_files = glob.glob('*.{}'.format('csv'))
-        list_data = []
+        os.chdir(self.base_dir)
+        csv_files = glob.glob('*csv')
 
-        for filename in csv_files:
-            data = pd.read_csv(filename)
-            list_data.append(data)
+        list_data = [pd.read_csv(filename) for filename in csv_files]
 
         return pd.concat(list_data, ignore_index=True)
 
-    def execute(self, dataframe, condition):
+    def execute_query(self, dataframe, condition):
         dataframe_new = dataframe.loc[condition]
 
         groupby_df = dataframe_new.groupby(['mes', 'tipo_dia']).agg({'passenger_count': ['count', 'sum'],
@@ -33,29 +29,18 @@ class ExcelGenerator():
 
         return groupby_df
 
-    def start(self):
-        PATH = os.getcwd()
-        dataframe = self.load_dataframe()
-
-        #cambio el typo de objeto del campo "tpep_pickup_datetime" para tratarlo como una fecha
-        dataframe.tpep_pickup_datetime = pd.to_datetime(dataframe.tpep_pickup_datetime)
-
-        os.chdir(PATH)
-
-        dataframe['mes'] = dataframe['tpep_pickup_datetime'].dt.strftime('%Y-%m')
-        dataframe['tipo_dia'] = np.where(dataframe['tpep_pickup_datetime'].dt.dayofweek >= 5, '2', '1')
-
-        #Elimino los registros que la fecha sea diferente a los meses de enero, febreo, marzo de 2020
+    def data_cleaning(self, dataframe):
+        # Elimino los registros que la fecha sea diferente a los meses de enero, febrero, marzo de 2020
         df1 = dataframe.loc[dataframe['mes'] == '2020-01']
         df2 = dataframe.loc[dataframe['mes'] == '2020-02']
         df3 = dataframe.loc[dataframe['mes'] == '2020-03']
         list = [df1, df2, df3]
         dataframe = pd.concat(list, ignore_index=True)
 
-        #Elimino los registros donde la columna trip_distance <= 0
+        # Elimino los registros donde la columna trip_distance <= 0
         dataframe = dataframe.drop(dataframe[dataframe['trip_distance'] <= 0].index)
 
-        #Elimino los registros donde la columna fare_amount <= 0
+        # Elimino los registros donde la columna fare_amount <= 0
         dataframe = dataframe.drop(dataframe[dataframe['fare_amount'] <= 0].index)
 
         ##Elimino los registros donde la columna tolls_amount < 0
@@ -67,16 +52,31 @@ class ExcelGenerator():
         # Elimino los registros donde la columna mta_tax < 0
         dataframe = dataframe.drop(dataframe[dataframe['mta_tax'] < 0].index)
 
-        groupby_jfk = self.execute(dataframe, lambda df: df['RatecodeID'] == 2)
-        groupby_regular = self.execute(dataframe, lambda df: df['RatecodeID'] == 1)
-        groupby_others = self.execute(dataframe, lambda df: (df['RatecodeID'] != 2) & (df['RatecodeID'] != 1))
+        return dataframe
 
-        with pd.ExcelWriter("file.xlsx") as writer:
-            self.write_excel(groupby_jfk, writer, "JFK")
-            self.write_excel(groupby_regular, writer, "Regular")
-            self.write_excel(groupby_others, writer, "Others")
+    def generate_excel_file(self):
+        PATH = os.getcwd()
+        dataframe = self.load_dataframe()
+
+        #cambio el tipo de objeto del campo "tpep_pickup_datetime" para tratarlo como una fecha
+        dataframe.tpep_pickup_datetime = pd.to_datetime(dataframe.tpep_pickup_datetime)
+
+        os.chdir(PATH)
+
+        dataframe['mes'] = dataframe['tpep_pickup_datetime'].dt.strftime('%Y-%m')
+        dataframe['tipo_dia'] = np.where(dataframe['tpep_pickup_datetime'].dt.dayofweek >= 5, '2', '1')
+
+        dataframe = self.data_cleaning(dataframe)
+
+        groupby_jfk = self.execute_query(dataframe, lambda df: df['RatecodeID'] == 2)
+        groupby_regular = self.execute_query(dataframe, lambda df: df['RatecodeID'] == 1)
+        groupby_others = self.execute_query(dataframe, lambda df: (df['RatecodeID'] != 2) & (df['RatecodeID'] != 1))
+
+        with pd.ExcelWriter(self.file_name) as writer:
+            groupby_jfk.to_excel(writer, index=False, sheet_name="JFK")
+            groupby_regular.to_excel(writer, index=False, sheet_name="Regular")
+            groupby_others.to_excel(writer, index=False, sheet_name="Others")
 
 
 if __name__ == '__main__':
-    e_g = ExcelGenerator()
-    e_g.start()
+    ExcelGenerator().generate_excel_file()
