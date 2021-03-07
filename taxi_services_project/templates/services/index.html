@@ -3,10 +3,10 @@
 {% block content %}
 
 <form method="post" action="/services/update_vendor_id">
-	<div class="tab-content tab-space">
-
-		<table class="table table-bordered">
-			<thead>
+	<div class="container" style="text-align: center;">
+		<h3>Vendor assignment to the journey</h3>
+		<table class="table table-hover" border="3">
+			<thead class="thead-dark">
 				<tr>
 					<th>vendor</th>
 					<th>tpep_pickup_datetime</th>
@@ -15,49 +15,48 @@
 				</tr>
 			</thead>
 			<tbody>
-			{% for item in items %}
+				{% for item in items %}
 				<tr>
 					<td>
-						<select id="vendor" name="vendor">
+						<select id="vendor" name="vendor" class="custom-select">
 							<option selected="true" disabled="disabled">NULL</option>
 							<option value=1-{{item.id}}>Creative Mobile Technologies, LLC</option>
 							<option value=2-{{item.id}}>VeriFone Inc.</option>
-<!--								<input type="hidden" name="id" value="{{item.id}}">-->
+	<!--								<input type="hidden" name="id" value="{{item.id}}">-->
 						</select>
 					</td>
 					<td>{{ item.tpep_pickup_datetime }}</td>
 					<td>{{ item.trip_distance }}</td>
 					<td>{{ item.get_payment_type_display }}</td>
 				</tr>
-			{% endfor %}
+				{% endfor %}
 			</tbody>
 		</table>
-	</div>
+		{% if items.has_other_pages %}
+		<div class="pagination justify-content-end">
+		  	{% if items.has_previous %}
+			<a class="btn btn-outline-dark btn-sm mb-4" href="?page=1">First</a>
+			<a class="btn btn-outline-dark btn-sm mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+		  	{% endif %}
 
-	{% if items.has_other_pages %}
-		<div class="pagination">
-		  {% if items.has_previous %}
-			<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-			<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-		  {% endif %}
+		  	{% for num in items.paginator.page_range %}
+				{% if items.number == num %}
+			  	<a class="btn btn-outline-dark btn-sm mb-4" href="?page={{ num }}">{{ num }}</a>
+				{% elif num > items.number|add:'-3' and num < items.number|add:'3' %}
+			  	<a class="btn btn-outline-dark btn-sm mb-4" href="?page={{ num }}">{{ num }}</a>
+				{% endif %}
+		  	{% endfor %}
 
-		  {% for num in items.paginator.page_range %}
-			{% if items.number == num %}
-			  <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-			{% elif num > items.number|add:'-3' and num < items.number|add:'3' %}
-			  <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
-			{% endif %}
-		  {% endfor %}
-
-		  {% if items.has_next %}
-			<a class="btn btn-outline-info mb-4" href="?page={{ items.next_page_number }}">Next</a>
-			<a class="btn btn-outline-info mb-4" href="?page={{ items.paginator.num_pages }}">Last</a>
-		  {% endif %}
+		  	{% if items.has_next %}
+			<a class="btn btn-outline-dark btn-sm mb-4" href="?page={{ items.next_page_number }}">Next</a>
+			<a class="btn btn-outline-dark btn-sm mb-4" href="?page={{ items.paginator.num_pages }}">Last</a>
+		  	{% endif %}
 		</div>
-	{% endif %}
 
-    <button class="primary" type="submit">Aplicar Cambios</button>
-
+		{% endif %}
+	</div>
+	<div class="container" style="text-align: center;">
+    	<button class="btn btn-dark" type="submit">Apply Changes</button>
+	</div>
 </form>
-
 {% endblock %}

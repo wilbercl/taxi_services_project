@@ -124,4 +124,4 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-DEFAULT_IPP = 5
+DEFAULT_IPP = 100

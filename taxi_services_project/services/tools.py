@@ -62,4 +62,4 @@ def insert_db(path):
 
 # insert_db('C:\\Users\\ASUS\\Downloads\\Frogtek\\django_test\\datos\\datos\\')
 
-#insert_db('C:\\Users\\ASUS\\Downloads\\Frogtek\\django_test\\datos\\')
+insert_db('C:\\Users\\ASUS\\Downloads\\Frogtek\\django_test\\datos\\')

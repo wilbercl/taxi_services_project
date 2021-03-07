@@ -66,7 +66,17 @@ Procedimiento para cargar los ficheros es ejecutar la siguiente secuencia de có
 		congestion_surcharge DECIMAL(10 , 2 ) NOT NULL );
 ```
 
-Cantidad de registros de la tabla (excluidos los registros con fechas diferentes a enero, febrero y marzo de 2020 y, los registros con trip_distance <=0 (162070) y los registros en donde la columna trep_dropoff_datetime es inferior a la de trep_pickup_datetime (4), fare_amount <=0 (48417), Tolls_amount<0 (1), extra <0 (4), MTa_tax <0 (7), ) son 15500876.
+Establecer una política de la calidad de datos es una necesidad que se prolonga en el tiempo. La gestión manual y/o automatizada de la calidad de los datos ha de velar por la calidad de los mismos, y su tratamiento dependerá de la necesidades del análisis. En los datos propuestos se encontraron varias incongruencias e errores, los cuales fueron eliminados, como por ejemplo:
+* En los registros habían fechas que no correspondían con los meses de _enero_, _febrero_ y _marzo_ de _2020_.
+* Existían datos en la columna _tpep_dropoff_datetime_ que representa la fecha y hora en que se desactivó el medidor, inferior a la columna _tpep_pickup_datetime_ que representa la fecha y hora en que se activó el medidor.
+* En la columna _trip_distance_ que representa la distancia del viaje transcurrida en millas informada por el taxímetro, estaban con valores menores o igual (<=) a 0.
+* En la columna _fare_amount_ que representa la tarifa de tiempo y distancia calculada por el medidor, estaban con valores menores o igual (<=) a 0.
+* En la columna _tolls_amount_ que representa el importe total de todos los peajes pagados en el viaje, estaban con valores menor (<) a 0.
+* En la columna _extra_ que representa extras y recargos varios, estaban con valores menor (<) a 0.
+* En la columna _mta_tax_ que representa el impuesto MTA de $ 0.50 que se activa automáticamente según la tarifa medida en uso, estaban con valores menor (<) a 0. 
+
+#### Cantidad de registros en la tabla: 15500876
+
 ```
 SELECT COUNT(*) FROM [table_name]
 ```
@@ -90,7 +100,7 @@ SELECT COUNT(*) FROM [table_name]
 | 2020-02| 57051.09| 0.01| 2.89|
 | 2020-03 |269803.73| 0.01 |3.15|
 
-#### * Trayecto en tiempo (diferencia en minute entre la fecha de recogida y la fecha de llegada)
+#### * Trayecto en tiempo (diferencia en minute entre la fecha de recogida (_tpep_pickup_datetime_) y la fecha de llegada (_tpep_dropoff_datetime_))
 ```
 SELECT * 
 FROM ( 
