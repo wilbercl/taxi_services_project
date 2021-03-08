@@ -35,7 +35,7 @@ Esta aplicación se implementó utilizando las siguientes tecnologías:
 ## Aplicación Web
 Esta aplicación no está en modo de producción, por ejemplo. DEBUG = True (a propósito).
 
-## Preguntas
+## Respuestas 
 ***
 ### Part 1. SQL
 
