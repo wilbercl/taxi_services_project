@@ -15,18 +15,12 @@ class LoadData():
         os.chdir(path)
         csv_files = glob.glob('*.csv')
         list_data = []
-        # count = 0
 
         for filename in csv_files:
             with open(filename) as f:
                 reader = csv.reader(f)
                 next(reader, None)
                 for row in reader:
-                    # if count > 34000:
-                    #     count = 0
-                    #     break
-                    #
-                    # count += 1
                     date = row[1][:7]
                     trip_distance = decimal.Decimal(row[4])
                     fare_amount = decimal.Decimal(row[10])
