@@ -1,6 +1,10 @@
 # Proyecto Servicios de Taxi 
 ***
-El objetivo de esta prueba es resolver un ejercicio práctico que abarque la extracción de datos, la generación de unas simples web y API de consulta y por último la generación de un entregable en Python.
+El objetivo de esta prueba es resolver un ejercicio práctico que abarque la extracción de datos, la generación de unas simples web y API de consulta y por último la generación de un entregable en Python. 
+
+La ciudad de Nueva York deja como Open Data la información de su servicio de taxis, los datos a emplear para la prueba se pueden descargar desde aquí: https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+Los ficheros que vamos a usar son los del Yellow Taxi Trip Records correspondientes a enero, febrero y marzo de 2020.
+En este PDF https://www1.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf se puede consultar la definición de cada uno de los campos del fichero.
 
 ## Desarrollado  
 ***
@@ -143,10 +147,16 @@ ORDER BY mes;
 | 2020-03| 2964882| -52%|
 
 ### Part 2. Django, Web, API
-Ejemplo de la url del sitio web
+El campo _vendor_id_ debería venir informado, pero no ocurre en todos los casos. 
+Se diseñó una página web dentro de un Django en la que se le pueda asignar a cada registro donde no esté informado el _vendor_id_ uno de los dos valores posibles: 1= Creative Mobile Technologies, LLC; 2= VeriFone Inc.?
+
+* Ejemplo de la url
 http://127.0.0.1:8000/services/
 
 #### Parte 2.2. API Endpoint para consultar los servicios
+Desarrollar un endpoint longest_trips que reciba como parámetros de entrada el vendor_id (numérico) y un limit (numérico) que devuelva un JSON con los viajes del vendor, seleccionados ordenados por duración en millas descendente hasta completar el número de servicios que le hayamos pasado en el limit
+
+* Ejemplo de la url
 http://127.0.0.1:8000/services/longest_trips?vendor_id=1&limit=3
 
 Ejemplo del .json resultante

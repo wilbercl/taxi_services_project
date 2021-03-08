@@ -5,8 +5,9 @@ import pandas as pd
 
 
 class ExcelGenerator():
-    file_name = "file.xlsx"
-    base_dir = os.getcwd() + "\datos\\"
+    def __init__(self, file_name='file.xlsx'):
+        self.file_name = file_name
+        self.base_dir = os.getcwd() + "\datos\\"
 
     def load_dataframe(self):
         os.chdir(self.base_dir)
@@ -55,13 +56,13 @@ class ExcelGenerator():
         return dataframe
 
     def generate_excel_file(self):
-        PATH = os.getcwd()
+        path = os.getcwd()
         dataframe = self.load_dataframe()
 
         #cambio el tipo de objeto del campo "tpep_pickup_datetime" para tratarlo como una fecha
         dataframe.tpep_pickup_datetime = pd.to_datetime(dataframe.tpep_pickup_datetime)
 
-        os.chdir(PATH)
+        os.chdir(path)
 
         dataframe['mes'] = dataframe['tpep_pickup_datetime'].dt.strftime('%Y-%m')
         dataframe['tipo_dia'] = np.where(dataframe['tpep_pickup_datetime'].dt.dayofweek >= 5, '2', '1')

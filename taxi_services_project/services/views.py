@@ -1,13 +1,11 @@
-from django.shortcuts import render, redirect
-
-from services.models import TaxiService
-from django.views.decorators.csrf import csrf_exempt
-
-from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 
 from taxi_services_project.settings import DEFAULT_IPP
+from services.models import TaxiService
 
 
 @require_http_methods(['GET'])

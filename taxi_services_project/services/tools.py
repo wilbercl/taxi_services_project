@@ -1,9 +1,9 @@
 import csv
 import decimal
-import django
 import glob
-
 import os
+
+import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "taxi_services_project.settings")
 django.setup()
 
@@ -11,24 +11,22 @@ from services.models import TaxiService
 
 
 class LoadData():
-
     def insert_db(self, path):
         os.chdir(path)
         csv_files = glob.glob('*.csv')
-        print(csv_files)
         list_data = []
-        count = 0
+        # count = 0
 
         for filename in csv_files:
             with open(filename) as f:
                 reader = csv.reader(f)
                 next(reader, None)
                 for row in reader:
-                    if count > 34000:
-                        count = 0
-                        break
-
-                    count += 1
+                    # if count > 34000:
+                    #     count = 0
+                    #     break
+                    #
+                    # count += 1
                     date = row[1][:7]
                     trip_distance = decimal.Decimal(row[4])
                     fare_amount = decimal.Decimal(row[10])
@@ -36,7 +34,10 @@ class LoadData():
                     mta_tax = decimal.Decimal(row[12])
                     tolls_amount = decimal.Decimal(row[14])
 
-                    if (date == '2020-01' or date == '2020-02' or date == '2020-03') and (trip_distance > 0) and (fare_amount > 0) and (extra >= 0) and (mta_tax >= 0) and (tolls_amount >= 0):
+                    amounts_non_zero = trip_distance > 0 and fare_amount > 0
+                    positive_amount = extra >= 0 and mta_tax >= 0 and tolls_amount >= 0
+
+                    if date in ['2020-01', '2020-02', '2020-03'] and amounts_non_zero and positive_amount:
                         data = {
                          'vendor_id': row[0],
                          'tpep_pickup_datetime': row[1],
@@ -71,6 +72,3 @@ class LoadData():
 if __name__ == '__main__':
     dir_file = input('Ingrese la ruta absoluta donde se encuentren los archivos .csv: ')
     LoadData().insert_db(dir_file)
-
-
-# insert_db('C:\\Users\\ASUS\\Downloads\\Frogtek\\django_test\\datos\\')

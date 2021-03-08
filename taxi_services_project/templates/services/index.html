@@ -24,7 +24,7 @@
 							<option value=2-{{item.id}}>VeriFone Inc.</option>
 						</select>
 					</td>
-					<td>{{ item.tpep_pickup_datetime.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+					<td>{{ item.tpep_pickup_datetime }}</td>
 					<td>{{ item.trip_distance }}</td>
 					<td>{{ item.get_payment_type_display }}</td>
 				</tr>

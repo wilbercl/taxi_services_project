@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from decouple import config
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = '0#!$q02vu*t%2&a_n(_rk=dh)#)1zx=^58qsks)nd+l=3f37b('
+SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = True
 
