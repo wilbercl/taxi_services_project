@@ -186,7 +186,7 @@ Ejemplo del .json resultante
 ```
 
 ### Part 3. Generar un informe usando python
-Ejecutar el script _excel_file_generator.py_ y obtener el archivo _file.xlsx_
+Ejecutar el script _excel_file_generator.py_ en el cual habrá que pasarle la ruta absoluta donde se encuentren los ficheros .csv (datos). El resultado final se encontrará en el archivo _file.xlsx_.
 
 ## Versionado
 ***

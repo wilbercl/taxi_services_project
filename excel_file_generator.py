@@ -5,9 +5,9 @@ import pandas as pd
 
 
 class ExcelGenerator():
-    def __init__(self, file_name='file.xlsx'):
+    def __init__(self, base_dir, file_name='file.xlsx'):
         self.file_name = file_name
-        self.base_dir = os.getcwd() + "\datos\\"
+        self.base_dir = base_dir
 
     def load_dataframe(self):
         os.chdir(self.base_dir)
@@ -80,4 +80,5 @@ class ExcelGenerator():
 
 
 if __name__ == '__main__':
-    ExcelGenerator().generate_excel_file()
+    dir_file = input('Ingrese la ruta absoluta donde se encuentren los archivos .csv: ')
+    ExcelGenerator(dir_file).generate_excel_file()
